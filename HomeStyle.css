@@ -23,7 +23,7 @@ nav ul li a
     color:#d7e1f6;
     font-size: 17px;
     text-transform: uppercase;
-    background-color:blue;
+    background-color:#b30528;
     padding-top: 10px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -36,7 +36,7 @@ div.logo
 }
 a.active,a:hover
 {
-    background:yellowgreen ;
+    background:antiquewhite ;
     transition: .5s;
 
 }
