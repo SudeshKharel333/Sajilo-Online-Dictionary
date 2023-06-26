@@ -1,6 +1,10 @@
-.img
+body
 {
- align-items:center;
+    background:#3299a8;
+}
+fa fa-search
+{
+    font-size: 1px;
 }
 nav ul
 {
@@ -26,13 +30,17 @@ nav ul li a
     padding-right: 10px;
     text-decoration: none;
 }
-body
+div.logo
 {
-    background:#3299a8;
+    color: blue;
 }
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-  }
+a.active,a:hover
+{
+    background:antiquewhite ;
+    transition: .5s;
+
+}
+logo
+{
+    padding-top: 0px;
+}
