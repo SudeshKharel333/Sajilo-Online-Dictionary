@@ -33,16 +33,69 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
         <h1 style="font-family:'Sofia', monospace ;font-size: 55px;" class="animate__animated animate__backInDown"> Sajilo Online dictionary</h1>
     </div>
     <div class="container pt-5">
-        <h2>
-            <form class="example"  method="post" action="action_page.php" style="margin:auto;max-width:300px">
-        <input type="text" placeholder="Search word here..." name="search2">
-        <button type="submit" name="sub" class="btn btn-primary btn-sm">submit</button>
+        <input type="text" placeholder="Search word here..." id="wordInput">
+        <button type="button" id="searchBtn" class="btn btn-primary btn-sm">Search</button>
         <!-- btn-sm means button small from bootstrap -->
-            </form>
-        </h2>
     </div>
       <!--search-box -->
-      <div id="meaning" >hello iam sudesh</div>
+      <p id="resultSection" ></div>
+      <script>console.log("ajax tutorial");
+        let SearchBtn = document.getElementById("searchBtn");
+        SearchBtn.addEventListener('click', buttonClickHandler);
+        
+        function buttonClickHandler() {
+            console.log("You have clicked the fetch button");
+            const wordInput = document.getElementById("wordInput");
+            const resultSection = document.getElementById("resultSection");
+            const word = wordInput.value;
+            console.log(word);
+            // Instantiate an XHR object
+            const xhr = new XMLHttpRequest();
+            // Open the object
+            xhr.open('GET', 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word, true);
+            // What to do on progress (optional)
+            xhr.onprogress = function () {
+                console.log('On progress');
+            };
+            // What to do when response is ready
+            xhr.onload = function () {
+                // HTTP status
+                if (this.status === 200) {
+                    const response = JSON.parse(this.responseText);
+                    console.log(response);
+                    let resultText = "";
+                    
+                    for(let i=0;i<response[0].meanings.length;i++)
+                    {
+                        let meaning = response[0].meanings[i];
+                        resultText = resultText + (i +1) + ". "+ meaning.partOfSpeech +"<br>";
+                        for(let j = 0;j<meaning.definitions.length;j++)
+                        {
+                            let definition = meaning.definitions[j].definition;
+                            resultText =  resultText +  " &nbsp; &nbsp; &nbsp; &nbsp;" + (j+1) + ".&nbsp;" + definition + "<br>";
+                            //result.write((j+1)+" " + meaning.definitions[j].definition);
+                        }
+                        
+                    }
+                    resultSection.innerHTML = resultText ;
+                    //document.getElementById("resultSection").innerHTML=response[0].word +"   ,   "+response[0].phonetic;
+                    //console.log(JSON.stringify(response, null, 2));
+                    //document.write(JSON.stringify(response, null, 2));
+                } else {
+                    resultSection.innerhtml = ("Some error occurred");
+                }
+            };
+            // Send the request
+            xhr.send();
+            console.log("We are done");
+        }
+        </script>
+    </body>
+    
+    </html>
+</body>
+</html>
+      </script>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <footer>
