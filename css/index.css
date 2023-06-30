@@ -1,10 +1,16 @@
 body
 {
-    background:#3299a8;
+    background:#fcfdfd;
 }
-fa fa-search
+footer
 {
-    font-size: 1px;
+    text-align: right;
+    margin-top:20px;
+}
+#resultSection{
+    background-color: lightsteelblue;
+    margin-top: 10px;
+    border-radius: 6px;
 }
 nav ul
 {
@@ -20,14 +26,11 @@ nav ul li
 }
 nav ul li a
 {
-    color:#d7e1f6;
+    color:#ffffff;
     font-size: 17px;
     text-transform: uppercase;
-    background-color:#b30528;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    background-color:#2f432f;
+    padding: 10px;
     text-decoration: none;
 }
 div.logo
@@ -40,7 +43,7 @@ a.active,a:hover
     transition: .5s;
 
 }
-logo
+.logo
 {
     padding-top: 0px;
 }
