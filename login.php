@@ -19,41 +19,47 @@
 
 <div class="container mt-2">
   <h2>Login form</h2>
-  <form action>
+  <form action="login.php" method="post">
     <div class="mb-3 mt-3">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
     </div>
     <div class="mb-3">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
     </div>
-<button id="loginBtn">Login</button>
-     </ul>
+    <input type="submit">
   </form>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() 
+  <?php 
+    if (isset($_POST['username'])) 
     {
-      var loginBtn = document.getElementById("loginBtn");
-  
-      loginBtn.addEventListener("click", function(event) 
-      {
-        event.preventDefault(); // Prevent form submission
-  
-        // Get the form values
-      
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("pwd").value;
-       
-  
-        // Display the values in the console
-      
-        console.log("Email:", email);
-        console.log("Password:", password);
-        
-      });
-    });
-  </script>
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+      echo $username;
+      echo $password;
+      //Connect to db and check if email and password exists in the userlogin table
+      $dbHost = "localhost"; // replace with your host
+      $dbUsername = "root"; // replace with your database username
+      $dbPassword = ""; // replace with your database password
+      $dbName = "sajilo_online_dictionary"; // replace with your database name
 
+      $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+      if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+      }
+      $query = "SELECT * FROM userlogin WHERE username = '$username' AND password = '$password'";
+      $result = $conn->query($query);
+      if ($result->num_rows == 1) 
+      {
+        echo"login successful";
+      }
+      //If not exist, echo login failed
+      // else login passed
+      else
+      {
+        echo"login failed";
+      }
+    } 
+  ?>
 </body>
 </html>
