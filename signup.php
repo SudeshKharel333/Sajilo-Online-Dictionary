@@ -17,19 +17,24 @@
 
 <div class="container mt-3">
   <h2>Registration form</h2>
-  <form>
+  <form action="signup.php" method="post">
     <div class="mb-3 mt-3">
       <label for="FirstName">FirstName</label>
-      <input type="text" class="form-control" id="FirstName" placeholder="Enter your Firstname" name="FirstName">
+      <input type="text" class="form-control" id="firstname" placeholder="Enter your Firstname" name="firstname">
     </div>
     <div class="mb-3">
       <label for="LastName">LastName</label>
-      <input type="text" class="form-control" id="LastName" placeholder="Enter your Lastname" name="LastName">
+      <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname" name="lastname">
     </div>
     <div class="mb-3">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
     </div>
+    <div class="mb-3">
+    <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+    </div>
+    
     <div class="mb-3">
       <label for="pwd">Password:</label>
       <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
@@ -49,32 +54,49 @@
     <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
   </form>
 </div>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var submitBtn = document.getElementById("submitBtn");
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $email = $_POST["email"];
+    $username = $_POST["username"];
+    $password = $_POST["pswd"];
+    $gender = $_POST["gender"];
+    $age = $_POST["age"];
+    $dob = $_POST["dob"];
+    
+    $dbhost = "localhost"; // replace with your host
+    $dbusername = "root"; // replace with your database username
+    $dbpassword = ""; // replace with your database password
+    $database = "sajilo_online_dictionary"; // replace with your database name
+    
+    $conn = new mysqli($dbhost, $dbusername, $dbpassword, $database);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    // Insert data into the `userinfo` table
+    $query1 = "INSERT INTO userinfo (firstname, lastname, age, dob, gender, email) VALUES ('$firstname', '$lastname', '$age', '$dob', '$gender', '$email')";
+    
+    if ($conn->query($query1) === TRUE) {
+        // Retrieve the auto-generated userid
+        $userid = $conn->insert_id;
+        echo "User info inserted successfully. ";
+        
+        // Insert data into the `userlogin` table
+        $query2 = "INSERT INTO userlogin (userid, username, password) VALUES ('$userid', '$username', '$password')";
+        if ($conn->query($query2) === TRUE) {
+            echo "User login info inserted successfully.";
+        } else {
+            echo "Error inserting user login info: " . $conn->error;
+        }
+    } else {
+        echo "Error inserting user info: " . $conn->error;
+    }
+    
+    $conn->close();
+}
+?>
 
-    submitBtn.addEventListener("click", function(event) {
-      event.preventDefault(); // Prevent form submission
-
-      // Get the form values
-      var firstName = document.getElementById("FirstName").value;
-      var lastName = document.getElementById("LastName").value;
-      var email = document.getElementById("email").value;
-      var password = document.getElementById("pwd").value;
-      var gender = document.querySelector('input[name="gender"]:checked').value;
-      var age = document.getElementById("age").value;
-      var dob = document.getElementById("dob").value;
-
-      // Display the values in the console
-      console.log("First Name:", firstName);
-      console.log("Last Name:", lastName);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("Gender:", gender);
-      console.log("Age:", age);
-      console.log("Date of Birth:", dob);
-    });
-  });
-</script>
 </body>
 </html>
