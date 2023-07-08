@@ -37,7 +37,7 @@
     
     <div class="mb-3">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
     </div>
     <div class="mb-3">
       <input type="radio" id="male" name="gender" value="male">
@@ -55,47 +55,67 @@
   </form>
 </div>
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstname = $_POST["firstname"];
-    $lastname = $_POST["lastname"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["pswd"];
-    $gender = $_POST["gender"];
-    $age = $_POST["age"];
-    $dob = $_POST["dob"];
-    
-    $dbhost = "localhost"; // replace with your host
-    $dbusername = "root"; // replace with your database username
-    $dbpassword = ""; // replace with your database password
-    $database = "sajilo_online_dictionary"; // replace with your database name
-    
-    $conn = new mysqli($dbhost, $dbusername, $dbpassword, $database);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-    // Insert data into the `userinfo` table
-    $query1 = "INSERT INTO userinfo (firstname, lastname, age, dob, gender, email) VALUES ('$firstname', '$lastname', '$age', '$dob', '$gender', '$email')";
-    
-    if ($conn->query($query1) === TRUE) {
-        // Retrieve the auto-generated userid
-        $userid = $conn->insert_id;
-        echo "User info inserted successfully. ";
-        
-        // Insert data into the `userlogin` table
-        $query2 = "INSERT INTO userlogin (userid, username, password) VALUES ('$userid', '$username', '$password')";
-        if ($conn->query($query2) === TRUE) {
-            echo "User login info inserted successfully.";
-        } else {
-            echo "Error inserting user login info: " . $conn->error;
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+    {
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $email = $_POST["email"];
+        $username = $_POST["username"];
+        $password = $_POST["pswd"];
+        $gender = "";
+        if(isset($_POST["gender"])){
+            $gender = $_POST["gender"];
         }
-    } else {
-        echo "Error inserting user info: " . $conn->error;
+        $age = $_POST["age"];
+        $dob = $_POST["dob"];
+
+        //Formm validation
+        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == ""  || $dob == "")
+        {
+            echo "Please fill up all the fields!";
+        }
+        else if(strlen($password) < 8){
+            echo "Password cannot be less than 8 characters!";
+        }
+        else
+        {
+            $dbhost = "localhost"; // replace with your host
+            $dbusername = "root"; // replace with your database username
+            $dbpassword = ""; // replace with your database password
+            $database = "sajilo_online_dictionary"; // replace with your database name
+            
+            $conn = new mysqli($dbhost, $dbusername, $dbpassword, $database);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            
+            // Insert data into the `userinfo` table
+            $query1 = "INSERT INTO userinfo (firstname, lastname, age, dob, gender, email) VALUES ('$firstname', '$lastname', '$age', '$dob', '$gender', '$email')";
+            
+            if ($conn->query($query1) === TRUE) 
+            {
+                // Retrieve the auto-generated userid
+                $userid = $conn->insert_id;
+                echo "User info inserted successfully. ";
+                
+                // Insert data into the `userlogin` table
+                $query2 = "INSERT INTO userlogin (userid, username, password) VALUES ('$userid', '$username', '$password')";
+                if ($conn->query($query2) === TRUE)
+                {
+                    echo "User login info inserted successfully.";
+                } 
+                else 
+                {
+                    echo "Error inserting user login info: " . $conn->error;
+                }
+            } else 
+            {
+                echo "Error inserting user info: " . $conn->error;
+            }
+            
+            $conn->close();
+        }
     }
-    
-    $conn->close();
-}
 ?>
 
 </body>
