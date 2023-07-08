@@ -1,3 +1,7 @@
+<?php
+// Start the session
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +26,7 @@
   <form action="login.php" method="post">
     <div class="mb-3 mt-3">
       <label for="username">Username:</label>
-      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" >
     </div>
     <div class="mb-3">
       <label for="pwd">Password:</label>
@@ -31,33 +35,42 @@
     <input type="submit">
   </form>
   <?php 
-    if (isset($_POST['username'])) 
+    if ($_SERVER["REQUEST_METHOD"] == "POST") 
     {
       $username = $_POST['username'];
       $password = $_POST['password'];
-      echo $username;
-      echo $password;
-      //Connect to db and check if email and password exists in the userlogin table
-      $dbHost = "localhost"; // replace with your host
-      $dbUsername = "root"; // replace with your database username
-      $dbPassword = ""; // replace with your database password
-      $dbName = "sajilo_online_dictionary"; // replace with your database name
 
-      $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-      if ($conn->connect_error) {
-          die("Connection failed: " . $conn->connect_error);
+      //Form validation
+      if($username == "" || $password == ""){
+        echo "Username and Password is required!";
       }
-      $query = "SELECT * FROM userlogin WHERE username = '$username' AND password = '$password'";
-      $result = $conn->query($query);
-      if ($result->num_rows == 1) 
-      {
-        echo"login successful";
-      }
-      //If not exist, echo login failed
-      // else login passed
       else
       {
-        echo"login failed";
+        echo "\nusername= ".$username;
+        echo "\npassword= ".$password;
+        //Connect to db and check if email and password exists in the userlogin table
+        $dbHost = "localhost"; // replace with your host
+        $dbUsername = "root"; // replace with your database username
+        $dbPassword = ""; // replace with your database password
+        $dbName = "sajilo_online_dictionary"; // replace with your database name
+
+        $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $query = "SELECT * FROM userlogin WHERE username = '$username' AND password = '$password'";
+        $result = $conn->query($query);
+        if ($result->num_rows == 1) 
+        {
+          $_SESSION['user'] = $username;
+          echo"\nlogin successful";
+        }
+        //If not exist, echo login failed
+        // else login passed
+        else
+        {
+          echo"\nlogin failed";
+        }
       }
     } 
   ?>
