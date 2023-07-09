@@ -1,8 +1,12 @@
 body
 {
-    background-color:#3299a8;
+    background-color:#b9bebe;
 }
-button
+.login-form
 {
-    background-color: red;
+    border: 1px solid gray;
+    margin-top: 200px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
 }
