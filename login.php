@@ -10,30 +10,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="./css/login.css">
   <link rel="icon" type="image/x-icon" href="sajilo1.png">
-  <style>
-    body
-    {
-        background-color: #b0e0e6 ;
-    }
-</style>
 </head>
 <body>
 
-<div class="container mt-2">
-  <h2>Login form</h2>
-  <form action="login.php" method="post">
-    <div class="mb-3 mt-3">
-      <label for="username">Username:</label>
-      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" >
+<div class="container">
+<div class="row">
+    <div class="col-md-8 offset-md-2 login-form">
+      <h2>Login form</h2>
+      <form action="login.php" method="post">
+        <div class="mb-3 mt-3">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" >
+        </div>
+        <div class="mb-3">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+        </div>
+        <input type="submit">
+      </form>
     </div>
-    <div class="mb-3">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
-    </div>
-    <input type="submit">
-  </form>
+  </div>
+  
   <?php 
     if ($_SERVER["REQUEST_METHOD"] == "POST") 
     {
@@ -64,6 +63,7 @@
         {
           $_SESSION['user'] = $username;
           echo"\nlogin successful";
+          header("Location: index.php");
         }
         //If not exist, echo login failed
         // else login passed
