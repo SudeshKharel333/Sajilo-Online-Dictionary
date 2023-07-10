@@ -40,7 +40,8 @@
       $password = $_POST['password'];
 
       //Form validation
-      if($username == "" || $password == ""){
+      if($username == "" || $password == "")
+      {
         echo "Username and Password is required!";
       }
       else
@@ -54,7 +55,8 @@
         $dbName = "sajilo_online_dictionary"; // replace with your database name
 
         $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-        if ($conn->connect_error) {
+        if ($conn->connect_error)
+        {
             die("Connection failed: " . $conn->connect_error);
         }
         $query = "SELECT * FROM userlogin WHERE username = '$username' AND password = '$password'";

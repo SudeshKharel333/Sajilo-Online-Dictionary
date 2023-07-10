@@ -1,5 +1,6 @@
 <?php
     session_start();
+    echo $_SESSION['FullName'];
 ?>
 
 <!DOCTYPE html>
@@ -34,20 +35,30 @@
 
     <div class="container pt-5">
         <div class="row">
-            <div class="col-lg-8 col-md-8">
-                <input type="text" placeholder="Search word here..." id="wordInput">
-                <button type="button" id="searchBtn" class="btn btn-primary btn-sm">Search</button>
-                <p id="resultSection" ></p>
+            <div class="col-lg-8 col-md-8 col-sm-12" id="search-container" style="padding-top:200px;" >
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="wordInput">
+                    <div class="input-group-btn">
+                    <button class="btn btn-default" id="searchBtn">
+                        Search &nbsp;<i class="glyphicon glyphicon-search"></i>
+                    </button>
+                    </div>
+                </div>
+                <p id="resultSection">
+                </p>
             </div>
-            <div class="col-lg-4 col-md-8">
-                <h3>Recent Searches</h3>
-                <p>Apple: <a href="#"></a><span class="glyphicon glyphicon-trash"></span></p>    
-                <p>ball <a href="#"></a><span class="glyphicon glyphicon-trash"></span></p>
-                <p>cat <a href="#"></a><span class="glyphicon glyphicon-trash"></span></p>
-                <p>dog<a href="#"></a><span class="glyphicon glyphicon-trash"></span></p>
-                <p>elephant <a href="#"></a><span class="glyphicon glyphicon-trash"></span></p>
-                
-            </div>
+            <?php if(isset($_SESSION['user'])){ ?>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <h3>Recent Searches</h3>
+                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
+                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
+                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
+                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
+                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
+                    
+                </div>
+            <?php } ?>
+
         </div>
     </div>
 
@@ -57,7 +68,7 @@
 
 </body>
 <footer>
-    <p>© 2023 Sajilo Online Dictionary. All rights reserved.</p>
+    © 2023 Sajilo Online Dictionary. All rights reserved.
 </footer>
 
 </html>
