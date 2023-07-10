@@ -3,6 +3,10 @@ let SearchBtn = document.getElementById("searchBtn");
 SearchBtn.addEventListener('click', buttonClickHandler);
 
 function buttonClickHandler() {
+    //to remove padding by clicking search button
+    var element = document.getElementById('search-container');
+    element.style.paddingTop = "10px";
+
     console.log("You have clicked the fetch button");
     const wordInput = document.getElementById("wordInput");
     const resultSection = document.getElementById("resultSection");
