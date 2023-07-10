@@ -71,10 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $gender = $_POST["gender"];
         }
         $age = $_POST["age"];
-        $dob = $_POST["dob"];
 
         //Formm validation
-        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == ""  || $dob == "")
+        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == "")
         {
             echo "Please fill up all the fields!";
         }
@@ -94,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             }
             
             // Insert data into the `userinfo` table
-            $query1 = "INSERT INTO userinfo (firstname, lastname, age, dob, gender, email) VALUES ('$firstname', '$lastname', '$age', '$dob', '$gender', '$email')";
+            $query1 = "INSERT INTO userinfo (firstname, lastname, age, gender, email) VALUES ('$firstname', '$lastname', '$age', '$gender', '$email')";
             
             if ($conn->query($query1) === TRUE) 
             {
