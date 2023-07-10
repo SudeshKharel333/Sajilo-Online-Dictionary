@@ -54,7 +54,7 @@
           <input type="radio" id="other" name="gender" value="other">
           <label for="other">Other</label>
         </div>
-        <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+        <button type="submit" class="btn btn-primary custom-signup-button" >Submit</button>
       </form>
   </div>
 </div>
