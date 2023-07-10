@@ -28,7 +28,7 @@
           <label for="pwd">Password:</label>
           <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
         </div>
-        <input type="submit">
+        <button type="submit" class="btn custom-submit-button">Submit</button>
       </form>
     </div>
   </div>
@@ -63,8 +63,17 @@
         $result = $conn->query($query);
         if ($result->num_rows == 1) 
         {
+          //TODO: Get User ID
           $_SESSION['user'] = $username;
-          echo"\nlogin successful";
+          // $userInfoQuery = "SELECT firstname, lastname FROM userinfo WHERE username' = '$username'";
+          // $userInfoResult = $conn->query($userInfoQuery);
+          // if ($userInfoResult->num_rows == 1) 
+          // {
+          //   $userInfo = $userInfoResult->fetch_assoc();
+          //   $_SESSION['FullName'] = $userInfo['firstname']." ".$userInfo['lastname'];
+          // } else{
+          //   echo "Error retrieving data";
+          // }
           header("Location: index.php");
         }
         //If not exist, echo login failed
