@@ -10,3 +10,7 @@ body
     padding: 20px;
     border-radius: 10px;
 }
+.login-form button.custom-submit-button {
+    background-color: skyblue;
+    color: white;
+}
