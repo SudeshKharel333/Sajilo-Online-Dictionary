@@ -2,16 +2,16 @@ body
 {
     background:#fcfdfd;
 }
-footer
-{
-    text-align: right;
-    margin-top:20px;
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
 }
 #resultSection{
-    background-color: lightsteelblue;
-    margin-top: 10px;
+    background-color: #00adef38;
     border-radius: 6px;
-
+    margin-top:10px;
 }
 nav
 {
@@ -30,6 +30,7 @@ nav ul li
 }
 nav ul li:hover{
     border-bottom: 5px solid lightblue;
+    text-decoration: none;
 }
 nav ul li a
 {
@@ -39,11 +40,30 @@ nav ul li a
     padding: 10px;
     text-decoration: none;
 }
-div.logo
-{
-    color: blue;
-}
 
 #site-name{
     font-size: 25px !important;
+}
+span.glyphicon glyphicon-trash
+{
+    float: right;
+}
+footer 
+{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color:skyblue;
+    color: black;
+    text-align: center;  
+    padding: 10px;  
+}
+.btn
+{
+    background-color: skyblue;
+    color: black;
+}
+.search-container
+{
+    padding-top: 200px;
 }
