@@ -1,6 +1,6 @@
 <?php
     session_start();
-    echo $_SESSION['FullName'];
+    echo "Hello ".$_SESSION['FullName'];
 ?>
 
 <!DOCTYPE html>
@@ -22,8 +22,9 @@
         <img src="./images/sajilo1.png" height="100px">
         <span id="site-name"><b>Sajilo Online Dictionary</b></span>
         <ul>
+                   
             <li><a href="index.php">Home</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="about.php">About</a></li>
             <?php if(!isset($_SESSION['user'])){ ?>
                 <li><a href="login.php">Login</a></li>
                 <li><a href="signup.php"> Sign Up</a></li>
@@ -44,19 +45,41 @@
                     </button>
                     </div>
                 </div>
+
                 <p id="resultSection">
                 </p>
             </div>
             <?php if(isset($_SESSION['user'])){ ?>
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <h3>Recent Searches</h3>
-                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
-                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
-                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
-                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
-                    <div class="well well-sm">Basic Well <a href="#"><span class="glyphicon glyphicon-trash  pull-right"></span></a></div>
-                    
-                </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <h3>Recent Searches</h3>
+                <?php
+                    $userId = $_SESSION['userid'];
+
+                    // Connect to the database and check if the username and password exist in the userlogin table
+                    $dbHost = "localhost"; // replace with your host
+                    $dbUsername = "root"; // replace with your database username
+                    $dbPassword = ""; // replace with your database password
+                    $dbName = "sajilo_online_dictionary"; // replace with your database name
+
+                    $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+                    if ($conn->connect_error)
+                    {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    $loginQuery = "SELECT searchword FROM usersearch WHERE userid = $userId";
+                    $result = $conn->query($loginQuery);    
+                    if ($result->num_rows > 0) 
+                    {
+                        // output data of each row
+                        while($row = $result->fetch_assoc()) {
+                        echo "<div class='well well-sm'>". $row['searchword']." <a href='#'><span class='glyphicon glyphicon-trash  pull-right'></span></a></div>";
+                        }
+                    } else {
+                        echo "0 results";
+                    }
+                ?>
+            </div>
             <?php } ?>
 
         </div>
