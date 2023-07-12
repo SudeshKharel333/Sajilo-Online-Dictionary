@@ -7,7 +7,7 @@ function buttonClickHandler() {
     var element = document.getElementById('search-container');
     element.style.paddingTop = "10px";
 
-    document.write("You have clicked the fetch button");
+    console.log("You have clicked the fetch button");
     const wordInput = document.getElementById("wordInput");
     const resultSection = document.getElementById("resultSection");
     const word = wordInput.value;
