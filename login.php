@@ -1,6 +1,6 @@
 <?php
 // Start the session
-  session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,56 +34,66 @@
   </div>
   
   <?php 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") 
-    {
-      $username = $_POST['username'];
-      $password = $_POST['password'];
+  if ($_SERVER["REQUEST_METHOD"] == "POST") 
+  { 
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-      //Form validation
-      if($username == "" || $password == "")
+    // Form validation
+    if ($username == "" || $password == "")
+    {
+      echo "Username and Password are required!";
+    }
+    else
+    {
+     
+      echo "\nusername= " . $username;
+      echo "\npassword= " . $password;
+      
+      // Connect to the database and check if the username and password exist in the userlogin table
+      $dbHost = "localhost"; // replace with your host
+      $dbUsername = "root"; // replace with your database username
+      $dbPassword = ""; // replace with your database password
+      $dbName = "sajilo_online_dictionary"; // replace with your database name
+
+      $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+      if ($conn->connect_error)
       {
-        echo "Username and Password is required!";
+          die("Connection failed: " . $conn->connect_error);
+      }
+
+      $loginQuery = "SELECT userid FROM userlogin WHERE username = '$username' AND password = '$password'";
+      $result = $conn->query($loginQuery);
+
+      if ($result->num_rows == 1) 
+      {
+        // Fetch the row from the result
+        $row = $result->fetch_assoc();
+        $userid = $row['userid'];
+
+        $userInfoQuery = "SELECT firstname, lastname FROM userinfo WHERE userid='$userid'";
+        $userInfoResult = $conn->query($userInfoQuery);
+
+        if ($userInfoResult->num_rows == 1) 
+        {
+          $userInfo = $userInfoResult->fetch_assoc();
+       
+          $fullName = $userInfo['firstname']." ".$userInfo['lastname'];
+
+          $_SESSION['FullName'] = $fullName;
+         
+          $_SESSION['user'] = $username;
+
+          $_SESSION['userid']= $userid;
+          header("Location: index.php");
+        }
       }
       else
       {
-        echo "\nusername= ".$username;
-        echo "\npassword= ".$password;
-        //Connect to db and check if email and password exists in the userlogin table
-        $dbHost = "localhost"; // replace with your host
-        $dbUsername = "root"; // replace with your database username
-        $dbPassword = ""; // replace with your database password
-        $dbName = "sajilo_online_dictionary"; // replace with your database name
-
-        $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-        if ($conn->connect_error)
-        {
-            die("Connection failed: " . $conn->connect_error);
-        }
-        $query = "SELECT * FROM userlogin WHERE username = '$username' AND password = '$password'";
-        $result = $conn->query($query);
-        if ($result->num_rows == 1) 
-        {
-          //TODO: Get User ID
-          $_SESSION['user'] = $username;
-          // $userInfoQuery = "SELECT firstname, lastname FROM userinfo WHERE username' = '$username'";
-          // $userInfoResult = $conn->query($userInfoQuery);
-          // if ($userInfoResult->num_rows == 1) 
-          // {
-          //   $userInfo = $userInfoResult->fetch_assoc();
-          //   $_SESSION['FullName'] = $userInfo['firstname']." ".$userInfo['lastname'];
-          // } else{
-          //   echo "Error retrieving data";
-          // }
-          header("Location: index.php");
-        }
-        //If not exist, echo login failed
-        // else login passed
-        else
-        {
-          echo"\nlogin failed";
-        }
+        echo "\nLogin failed";
       }
-    } 
+    }
+  }
   ?>
 </body>
 </html>
