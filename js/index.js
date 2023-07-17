@@ -27,6 +27,11 @@ function buttonClickHandler() {
         {
             const response = JSON.parse(this.responseText);
             console.log(response);
+
+            //if logged in and result 200, save to db
+            //Call our api to save to the db
+
+
             let resultText = "";
             
             for(let i=0;i<response[0].meanings.length;i++)
