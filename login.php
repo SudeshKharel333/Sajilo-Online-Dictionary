@@ -85,6 +85,7 @@ session_start();
           $_SESSION['user'] = $username;
 
           $_SESSION['userid']= $userid;
+          
           header("Location: index.php");
         }
       }
