@@ -54,6 +54,12 @@
           <input type="radio" id="other" name="gender" value="other">
           <label for="other">Other</label>
         </div>
+        <div>
+        Select Image File to Upload:
+          <input type="file" name="file"><br>
+          
+        </div>
+        
         <button type="submit" class="btn btn-primary custom-signup-button" >Submit</button>
       </form>
   </div>
@@ -73,14 +79,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $age = $_POST["age"];
 
         //Formm validation
-        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == "")
+        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == "" || empty($_FILES["file"]["name"]))
         {
             echo "Please fill up all the fields!";
         }
         else if(strlen($password) < 8){
             echo "Password cannot be less than 8 characters!";
         }
-        else
+        else if(!preg_match ("/^[a-zA-z]*$/", $firstname) ) 
+        {  
+          $ErrMsg = "Only alphabets and whitespace are  in firstname.";  
+                   echo $ErrMsg;  
+        }
+         else 
         {
             $dbhost = "localhost"; // replace with your host
             $dbusername = "root"; // replace with your database username
@@ -111,11 +122,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 {
                     echo "Error inserting user login info: " . $conn->error;
                 }
-            } else 
-            {
-                echo "Error inserting user info: " . $conn->error;
+                
             }
-            
             $conn->close();
         }
     }
