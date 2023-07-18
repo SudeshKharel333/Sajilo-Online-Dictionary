@@ -1,10 +1,9 @@
 <?php
     session_start();
-    
-    $searchword = "testword";
-    if(isset($_SESSION['userid'])){
+    if((isset($_SESSION['userid'])) &&  ($_SERVER["REQUEST_METHOD"] == "GET") && $_GET['searchword'] !="")
+    {
+        $searchword = $_GET['searchword'];
         $userId = $_SESSION['userid'];
-        
         $dbHost = "localhost"; 
         $dbUsername = "root"; 
         $dbPassword = "";
@@ -17,7 +16,6 @@
         }
         $wordinsertQuery = "INSERT INTO usersearch(userid, searchword) 
                                         VALUES($userId, '$searchword' )";
-        echo $wordinsertQuery ;
         if ($conn->query($wordinsertQuery) === TRUE)
         {
             echo "word inserted successfully.";
