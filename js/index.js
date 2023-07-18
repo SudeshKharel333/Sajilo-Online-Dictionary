@@ -12,6 +12,7 @@ function buttonClickHandler() {
     const resultSection = document.getElementById("resultSection");
     const word = wordInput.value;
     console.log(word);
+
     // Instantiate an XHR object
     const xhr = new XMLHttpRequest();
     // Open the object
@@ -30,7 +31,16 @@ function buttonClickHandler() {
 
             //if logged in and result 200, save to db
             //Call our api to save to the db
-
+            const xhr2 = new XMLHttpRequest();
+            const searchApiUrl = 'http://localhost/dictionary/savesearch.php?searchword=' + word;
+            xhr2.open('GET', searchApiUrl);
+            xhr.onload = function(){
+                if(this.status === 200){
+                    const response = this.responseText;
+                    console.log(response);
+                }
+            }
+            xhr2.send();
 
             let resultText = "";
             
