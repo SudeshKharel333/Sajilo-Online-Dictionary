@@ -67,7 +67,7 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    $loginQuery = "SELECT searchword FROM usersearch WHERE userid = $userId";
+                    $loginQuery = "SELECT searchword FROM usersearch WHERE userid = $userId ORDER BY searchid DESC";
                     $result = $conn->query($loginQuery);    
                     if ($result->num_rows > 0) 
                     {
