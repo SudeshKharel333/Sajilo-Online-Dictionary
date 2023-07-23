@@ -1,8 +1,6 @@
 <?php
     session_start();
-    echo "Hello ".$_SESSION['FullName'];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,24 +13,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/index.css">
     <!--google font link -->
-    <link rel="icon" type="image/x-icon" href="./images/1.png">
+    <link rel="icon" type="image/x-icon" href="./images/logo.png">
 </head>
 <body>
-    <nav>
-        <img src="./images/sajilo1.png" height="100px">
-        <span id="site-name"><b>Sajilo Online Dictionary</b></span>
-        <ul>
-                   
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About</a></li>
-            <?php if(!isset($_SESSION['user'])){ ?>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="signup.php"> Sign Up</a></li>
-            <?php } else {?>
-                <li><a href="logout.php"> LogOut</a></li>
-            <?php } ?>
-        </ul>
-    </nav>
+    <?php include './includes/header.php'; ?>
 
     <div class="container pt-5">
         <div class="row">
@@ -67,7 +51,7 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    $loginQuery = "SELECT searchword FROM usersearch WHERE userid = $userId ORDER BY searchid DESC";
+                    $loginQuery = "SELECT searchword FROM usersearch WHERE userid = $userId ORDER BY searchtime DESC";
                     $result = $conn->query($loginQuery);    
                     if ($result->num_rows > 0) 
                     {
