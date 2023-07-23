@@ -1,0 +1,13 @@
+body
+{
+    background:#fcfdfd;
+}
+.search-container
+{
+    padding-top: 200px;
+}
+#resultSection{
+    background-color: #00adef38;
+    border-radius: 6px;
+    margin-top:10px;
+}
