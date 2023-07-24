@@ -29,7 +29,6 @@ nav ul li
     margin:0 5px;
 }
 nav ul li:hover{
-    border-bottom: 5px solid lightblue;
     text-decoration: none;
 }
 nav ul li a
