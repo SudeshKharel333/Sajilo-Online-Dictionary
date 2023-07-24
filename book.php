@@ -17,22 +17,49 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12" id="search-container" style="padding-top:200px;" >
-                <form class="input-group">
-                    <input type="text" class="form-control" placeholder="Search Book" id="wordInput">
+                <form class="input-group" action = "book.php" method = "GET">
+                    <input type="text" class="form-control" name="wordInput" placeholder="Search Book" id="wordInput">
                     <div class="input-group-btn">
-                    <button class="btn btn-default" id="searchBtn">
-                        Search &nbsp;<i class="glyphicon glyphicon-search"></i>
-                    </button>
+                      <button type="submit" class="btn custom-submit-button">Submit</button>
                     </div>
                 </form>
-
-                <p id="resultSection">
                 </p>
             </div>
         </div>
     </div>
+    <?php 
+  if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['wordInput'])) 
+  { 
+    $word = $_GET['wordInput'];
+    // Form validation
+    if ($word != "")
+    {      
+      // Connect to the database and check if the username and password exist in the userlogin table
+      $dbHost = "localhost"; // replace with your host
+      $dbUsername = "root"; // replace with your database username
+      $dbPassword = ""; // replace with your database password
+      $dbName = "sajilo_online_dictionary"; // replace with your database name
 
-    <script src="./js/index.js"></script>
+      $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+      if ($conn->connect_error)
+      {
+          die("Connection failed: " . $conn->connect_error);
+      }
+
+      $loginQuery = "SELECT booklink FROM book WHERE bookname = '$word' OR bookauthor = '$word'";
+      $result = $conn->query($loginQuery);
+      if ($result->num_rows > 0) 
+      {
+          // output data of each row
+          while($row = $result->fetch_assoc()) {
+            echo $row['booklink'];
+          }
+      } else {
+          echo "0 results";
+      }
+    }
+  }
+  ?>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
