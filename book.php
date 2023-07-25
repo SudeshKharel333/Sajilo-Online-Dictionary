@@ -16,7 +16,7 @@
     <?php include './includes/header.php';?>
     <div class="container pt-5">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-12" id="search-container" style="padding-top:200px;" >
+            <div class="col-lg-offset-2 col-md-offset-2 col-lg-8 col-md-8 col-sm-12" id="search-container" style="padding-top:200px;" >
                 <form class="input-group" action = "book.php" method = "GET">
                     <input type="text" class="form-control" name="wordInput" placeholder="Search Book" id="wordInput">
                     <div class="input-group-btn">
@@ -46,14 +46,23 @@
           die("Connection failed: " . $conn->connect_error);
       }
 
-      $loginQuery = "SELECT booklink FROM book WHERE bookname = '$word' OR bookauthor = '$word'";
-      $result = $conn->query($loginQuery);
+      $bookQuery = "SELECT bookname, bookauthor, booklink FROM book WHERE bookname LIKE '%$word%' OR bookauthor LIKE '%$word%'";
+      $result = $conn->query($bookQuery);
       if ($result->num_rows > 0) 
       {
+        echo "<div class='container'><div class='row'>";
           // output data of each row
           while($row = $result->fetch_assoc()) {
-            echo $row['booklink'];
+            echo "<div class='col-lg-offset-2 col-md-offset-2 col-lg-8 col-md-8 col-sm-8'>
+                    <div class='well well-sm'>
+                        <h4>". $row['bookname']."</h4>
+                        <br>
+                        ".$row['bookauthor']." 
+                        <a href='".$row['booklink']."' target='_blank' class='pull-right'>Open <span class='glyphicon glyphicon-open'></span></a>
+                    </div>
+                  </div>";
           }
+        echo "</div></div></div>";
       } else {
           echo "0 results";
       }
