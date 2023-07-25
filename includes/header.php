@@ -6,6 +6,7 @@
         <ul>
                    
             <li><a href='index.php'>Home</a></li>
+            <li><a href='book.php'>Search Books</a></li>
             <li><a href='about.php'>About</a></li>";
             if(!isset($_SESSION['user'])){ 
                 echo "<li><a href='login.php'>Login</a></li>
