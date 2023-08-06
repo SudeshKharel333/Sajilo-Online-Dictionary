@@ -5,7 +5,7 @@ session_start();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Login Form</title>
+  <title>Login | Sajilo dictionary</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,8 +17,8 @@ session_start();
 
 <div class="container">
 <div class="row">
-    <div class="col-md-8 offset-md-2 login-form">
-      <h2>Login</h2>
+    <div class="col-md-6 offset-md-3 login-form">
+      <h2>Login | Sajilo dictionary</h2>
       <form action="login.php" method="post">
         <div class="mb-3 mt-3">
           <label for="username">Username:</label>
@@ -30,7 +30,8 @@ session_start();
         </div>
         <button type="submit" class="btn custom-submit-button">Submit</button>
         <div class="mb-3">
-          <label >Don't have an account? Signup <a href="./signup.php">here.</a></label>
+          <label >Don't have an account? Signup <a href="./signup.php">here.</a></label><br>
+          <label >Continue without signing in? <a href="./index.php">Go home.</a></label>
         </div>
       </form>
     </div>
@@ -54,10 +55,7 @@ session_start();
       echo "\npassword= " . $password;
       
       // Connect to the database and check if the username and password exist in the userlogin table
-      $dbHost = "localhost"; // replace with your host
-      $dbUsername = "root"; // replace with your database username
-      $dbPassword = ""; // replace with your database password
-      $dbName = "sajilo_online_dictionary"; // replace with your database name
+      include './includes/constants.php';
 
       $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
       if ($conn->connect_error)
@@ -80,10 +78,8 @@ session_start();
         if ($userInfoResult->num_rows == 1) 
         {
           $userInfo = $userInfoResult->fetch_assoc();
-       
-          $fullName = $userInfo['firstname']." ".$userInfo['lastname'];
 
-          $_SESSION['FullName'] = $fullName;
+          $_SESSION['FirstName'] = $userInfo['firstname'];
          
           $_SESSION['user'] = $username;
 
