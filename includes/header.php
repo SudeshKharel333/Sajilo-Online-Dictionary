@@ -13,8 +13,9 @@
                 <li><a href='signup.php'> Sign Up</a></li>";
             }
             else {
-                echo "
+                echo "Hi ". $_SESSION['FullName']."!"."
                 <li><a href='logout.php'> LogOut</a></li>";
+                echo "<img src='./userimages/". $_SESSION['userimage'] ."' style='height:60px;width:60px;border-radius:50%;object-fit:cover'>";
             }
         echo "</ul> </nav>";
 ?>

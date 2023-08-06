@@ -18,7 +18,7 @@ session_start();
 <div class="container">
 <div class="row">
     <div class="col-md-8 offset-md-2 login-form">
-      <h2>Login form</h2>
+      <h2>Login</h2>
       <form action="login.php" method="post">
         <div class="mb-3 mt-3">
           <label for="username">Username:</label>
@@ -29,6 +29,9 @@ session_start();
           <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
         </div>
         <button type="submit" class="btn custom-submit-button">Submit</button>
+        <div class="mb-3">
+          <label >Don't have an account? Signup <a href="./signup.php">here.</a></label>
+        </div>
       </form>
     </div>
   </div>
@@ -71,7 +74,7 @@ session_start();
         $row = $result->fetch_assoc();
         $userid = $row['userid'];
 
-        $userInfoQuery = "SELECT firstname, lastname FROM userinfo WHERE userid='$userid'";
+        $userInfoQuery = "SELECT firstname, lastname, userimage FROM userinfo WHERE userid='$userid'";
         $userInfoResult = $conn->query($userInfoQuery);
 
         if ($userInfoResult->num_rows == 1) 
@@ -84,7 +87,10 @@ session_start();
          
           $_SESSION['user'] = $username;
 
-          $_SESSION['userid']= $userid;
+          $_SESSION['userid'] = $userid;
+
+          $userimage = $userInfo['userimage'];
+          $_SESSION['userimage'] = $userimage;
           
           header("Location: index.php");
         }

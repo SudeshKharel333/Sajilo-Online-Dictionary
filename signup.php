@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-md-8 offset-md-2 signup-form">
       <h2>Register</h2>
-      <form action="signup.php" method="post">
+      <form action="signup.php" method="post"  enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
@@ -44,7 +44,7 @@
         </div>
         <div class="mb-3">
           <label for="age">Age:</label>
-          <input type="number" class="form-control" id="age" name="age">
+          <input type="number" class="form-control" id="age" name="age" min="1">
         </div>
         <div class="mb-3">
           <input type="radio" id="male" name="gender" value="male">
@@ -56,7 +56,7 @@
         </div>
         <div>
         Select Image File to Upload:
-          <input type="file" name="file"><br>
+          <input type="file" name="image"><br>
           
         </div>
         
@@ -77,9 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $gender = $_POST["gender"];
         }
         $age = $_POST["age"];
+        $profile_image = $_FILES['image'];
 
         //Formm validation
-        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == "" || empty($_FILES["file"]["name"]))
+        if($firstname == "" || $lastname == "" || $email == "" || $username == ""||  $password == "" || $gender == "" || $age == "" || empty($_FILES["image"]["name"]))
         {
             echo "Please fill up all the fields!";
         }
@@ -102,9 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            
+            if(isset($profile_image)){
+              move_uploaded_file($profile_image["tmp_name"], "./userimages/".$profile_image['name']);
+            }
+            $profile_image_filename = $profile_image['name'];
             // Insert data into the `userinfo` table
-            $query1 = "INSERT INTO userinfo (firstname, lastname, age, gender, email) VALUES ('$firstname', '$lastname', '$age', '$gender', '$email')";
+            $query1 = "INSERT INTO userinfo (firstname, lastname, age, gender, email, userimage) VALUES ('$firstname', '$lastname', '$age', '$gender', '$email', '$profile_image_filename')";
             
             if ($conn->query($query1) === TRUE) 
             {
@@ -117,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 if ($conn->query($query2) === TRUE)
                 {
                     echo "User login info inserted successfully.";
+                    header("Location: login.php");
                 } 
                 else 
                 {

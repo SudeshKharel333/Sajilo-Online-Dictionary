@@ -51,13 +51,13 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    $searchQuery = "SELECT searchword FROM usersearch WHERE userid = $userId ORDER BY searchtime DESC";
+                    $searchQuery = "SELECT searchword, searchid FROM usersearch WHERE userid = $userId ORDER BY searchtime DESC";
                     $result = $conn->query($searchQuery);    
                     if ($result->num_rows > 0) 
                     {
                         // output data of each row
                         while($row = $result->fetch_assoc()) {
-                        echo "<div class='well well-sm'>". $row['searchword']." <a href='#'><span class='glyphicon glyphicon-trash  pull-right'></span></a></div>";
+                        echo "<div class='well well-sm'>". $row['searchword']." <a href='./deletesearch.php?searchid=".$row['searchid']."'><span class='glyphicon glyphicon-trash  pull-right'></span></a></div>";
                         }
                     } else {
                         echo "0 results";
