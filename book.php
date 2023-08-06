@@ -35,10 +35,7 @@
     if ($word != "")
     {      
       // Connect to the database and check if the username and password exist in the userlogin table
-      $dbHost = "localhost"; // replace with your host
-      $dbUsername = "root"; // replace with your database username
-      $dbPassword = ""; // replace with your database password
-      $dbName = "sajilo_online_dictionary"; // replace with your database name
+      include './includes/constants.php';
 
       $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
       if ($conn->connect_error)

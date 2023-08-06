@@ -4,10 +4,8 @@
     {
         $searchword = $_GET['searchword'];
         $userId = $_SESSION['userid'];
-        $dbHost = "localhost"; 
-        $dbUsername = "root"; 
-        $dbPassword = "";
-        $dbName = "sajilo_online_dictionary"; 
+        
+        include './includes/constants.php'; 
 
         $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
         if ($conn->connect_error)
