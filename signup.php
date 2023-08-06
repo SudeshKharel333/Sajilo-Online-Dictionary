@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Register</title>
+  <title>Register | Sajilo dictionary </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2 signup-form">
-      <h2>Register</h2>
+      <h2>Register | Sajilo dictionary </h2>
       <form action="signup.php" method="post"  enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-6">
@@ -60,9 +60,13 @@
           
         </div>
         
-        <button type="submit" class="btn btn-primary custom-signup-button" >Submit</button>
+        <button type="submit" class="btn btn-primary custom-signup-button" >Submit</button><div class="mb-3">
+          <label >Already have an account? Signin <a href="./login.php">here.</a></label><br>
+          <label >Continue without registration? <a href="./index.php">Go home.</a></label>
+        </div>
       </form>
   </div>
+</div>
 </div>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
