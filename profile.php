@@ -9,7 +9,7 @@
     include './includes/constants.php';
     $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
     if ($conn->connect_error){ die("Connection failed: " . $conn->connect_error); }
-    $loginQuery = "SELECT username, password,  firstname, lastname, email FROM userinfo WHERE userid = $userid";
+    $loginQuery = "SELECT username, password,  firstname, lastname, email FROM user WHERE userid = $userid";
     $result = $conn->query($loginQuery);
 
     if ($result->num_rows == 1) 
