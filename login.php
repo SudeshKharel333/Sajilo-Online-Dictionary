@@ -63,38 +63,27 @@ session_start();
           die("Connection failed: " . $conn->connect_error);
       }
 
-      $loginQuery = "SELECT userid FROM userlogin WHERE username = '$username' AND password = '$password'";
+      $loginQuery = "SELECT  userid, firstname, lastname, userimage FROM user WHERE username = '$username' AND password = '$password'";
       $result = $conn->query($loginQuery);
 
       if ($result->num_rows == 1) 
       {
         // Fetch the row from the result
-        $row = $result->fetch_assoc();
-        $userid = $row['userid'];
-
-        $userInfoQuery = "SELECT firstname, lastname, userimage FROM userinfo WHERE userid='$userid'";
-        $userInfoResult = $conn->query($userInfoQuery);
-
-        if ($userInfoResult->num_rows == 1) 
-        {
-          $userInfo = $userInfoResult->fetch_assoc();
-
-          $_SESSION['FirstName'] = $userInfo['firstname'];
-         
-          $_SESSION['user'] = $username;
-
+          $row = $result->fetch_assoc();
+          $userid = $row['userid'];
           $_SESSION['userid'] = $userid;
-
-          $userimage = $userInfo['userimage'];
+          $_SESSION['FirstName'] = $row['firstname'];
+          $username = $row['username'];
+          $_SESSION['user'] = $userid;
+          $userimage = $row['userimage'];
           $_SESSION['userimage'] = $userimage;
           
           header("Location: index.php");
         }
-      }
-      else
-      {
-        echo "\nLogin failed";
-      }
+        else
+        {
+          echo "\nLogin failed";
+        }
     }
   }
   ?>

@@ -48,7 +48,7 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    $searchQuery = "SELECT searchword, searchid FROM usersearch WHERE userid = $userId ORDER BY searchtime DESC";
+                    $searchQuery = "SELECT searchword, searchid FROM search WHERE userid = $userId ORDER BY searchtime DESC";
                     $result = $conn->query($searchQuery);    
                     if ($result->num_rows > 0) 
                     {

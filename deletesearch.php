@@ -13,7 +13,7 @@
         {
             die("Connection failed: " . $conn->connect_error);
         }
-        $worddeleteQuery = "DELETE FROM usersearch  WHERE searchid = $searchid";
+        $worddeleteQuery = "DELETE FROM user  WHERE searchid = $searchid";
         $conn->query($worddeleteQuery);
         header("Location: index.php");
         

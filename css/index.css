@@ -66,3 +66,27 @@ footer
 {
     padding-top: 200px;
 }
+
+.notification{
+    animation: 3s infinite alternate slidein;
+    position: absolute;
+    bottom: 45px;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    padding: 10px;
+    z-index: 999;
+    margin: auto;
+    width: 100%;
+    background: gray;
+}
+
+.success{
+    background-color: green;
+    color:white;
+}
+
+.error{
+    background-color: lightcoral;
+}

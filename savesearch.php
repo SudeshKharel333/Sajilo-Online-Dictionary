@@ -12,7 +12,7 @@
         {
             die("Connection failed: " . $conn->connect_error);
         }
-        $wordinsertQuery = "INSERT INTO usersearch(userid, searchword) 
+        $wordinsertQuery = "INSERT INTO search(userid, searchword) 
                                         VALUES($userId, '$searchword' )";
         if ($conn->query($wordinsertQuery) === TRUE)
         {

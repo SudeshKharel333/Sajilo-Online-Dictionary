@@ -98,12 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
          else 
         {
-            $dbhost = "localhost"; // replace with your host
-            $dbusername = "root"; // replace with your database username
-            $dbpassword = ""; // replace with your database password
-            $database = "sajilo_online_dictionary"; // replace with your database name
-            
-            $conn = new mysqli($dbhost, $dbusername, $dbpassword, $database);
+          include './includes/constants.php';
+            $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
@@ -111,28 +107,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
               move_uploaded_file($profile_image["tmp_name"], "./userimages/".$profile_image['name']);
             }
             $profile_image_filename = $profile_image['name'];
-            // Insert data into the `userinfo` table
-            $query1 = "INSERT INTO userinfo (firstname, lastname, age, gender, email, userimage) VALUES ('$firstname', '$lastname', '$age', '$gender', '$email', '$profile_image_filename')";
+            // Insert data into the `user` table
+            $query1 = "INSERT INTO user (firstname, lastname, age, gender, email, userimage, username, password) VALUES ('$firstname', '$lastname', '$age', '$gender', '$email', '$profile_image_filename', '$username', '$password')";
             
             if ($conn->query($query1) === TRUE) 
             {
-                // Retrieve the auto-generated userid
-                $userid = $conn->insert_id;
                 echo "User info inserted successfully. ";
-                
-                // Insert data into the `userlogin` table
-                $query2 = "INSERT INTO userlogin (userid, username, password) VALUES ('$userid', '$username', '$password')";
-                if ($conn->query($query2) === TRUE)
-                {
-                    echo "User login info inserted successfully.";
-                    header("Location: login.php");
-                } 
-                else 
-                {
-                    echo "Error inserting user login info: " . $conn->error;
-                }
-                
             }
+          else
+          {
+            echo"error inserting data";
+          }
             $conn->close();
         }
     }

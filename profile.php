@@ -4,14 +4,12 @@
         header("Location: index.php"); 
     }
     $userid = $_SESSION['userid'];
-    $dbHost = "localhost"; // replace with your host
-    $dbUsername = "root"; // replace with your database username
-    $dbPassword = ""; // replace with your database password
-    $dbName = "sajilo_online_dictionary"; // replace with your database name
 
+
+    include './includes/constants.php';
     $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
     if ($conn->connect_error){ die("Connection failed: " . $conn->connect_error); }
-    $loginQuery = "SELECT username, password FROM userlogin WHERE userid = '$userid'";
+    $loginQuery = "SELECT username, password,  firstname, lastname, email FROM userinfo WHERE userid = $userid";
     $result = $conn->query($loginQuery);
 
     if ($result->num_rows == 1) 
@@ -19,17 +17,6 @@
         $row = $result->fetch_assoc();
         $username = $row['username'];
         $password = $row['password'];
-    } else{
-        $conn->close();
-        header("Location: index.php");
-    }
-
-    $userinfoQuery = "SELECT firstname, lastname, email FROM userinfo WHERE userid = '$userid'";
-    $result = $conn->query($userinfoQuery);
-
-    if ($result->num_rows == 1) 
-    {
-        $row = $result->fetch_assoc();
         $firstname = $row['firstname'];
         $lastname = $row['lastname'];
         $email = $row['email'];
@@ -38,7 +25,6 @@
         header("Location: index.php");
     }
 
-    $conn->close();
 
 ?>
 <!DOCTYPE html>
@@ -115,31 +101,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
          else 
         {
-            $dbhost = "localhost"; // replace with your host
-            $dbusername = "root"; // replace with your database username
-            $dbpassword = ""; // replace with your database password
-            $database = "sajilo_online_dictionary"; // replace with your database name
-            
-            $conn = new mysqli($dbhost, $dbusername, $dbpassword, $database);
+             include './includes/constants.php';
+            $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
             // Update data into the `userinfo` table
-            $updateUserInfo = "UPDATE userinfo SET firstname = '$firstname', lastname = '$lastname', email = '$email' WHERE userid = '$userid'";
+            $updateUserInfo = "UPDATE user SET firstname = '$firstname', lastname = '$lastname', email = '$email', username = '$username', password = '$password' WHERE userid = $userid";
             
-            if ($conn->query($updateUserInfo) === FALSE) { 
-                $conn->close();
-                echo "Unable to update, contact server!";
+            if ($conn->query($updateUserInfo) === FALSE) 
+            { 
+                echo "<div class='notification success'>User Update failed, try again!</div>";
             }
             else{ 
-            // Update data into the `userlogin` table
-                $userLoginUpdate = "UPDATE userlogin SET username = '$username', password = '$password' WHERE userid = '$userid'";
-                if ($conn->query($userLoginUpdate) === FALSE){ 
-                    $conn->close();
-                    echo "Unable to update, contact server!";
-                 } else{
-                    header('Location:profile.php');
-                 }
+             echo "<div class='notification success'>User Update Successful!</div>";
             }
                 
             $conn->close();
