@@ -50,9 +50,6 @@ session_start();
     }
     else
     {
-     
-      echo "\nusername= " . $username;
-      echo "\npassword= " . $password;
       
       // Connect to the database and check if the username and password exist in the userlogin table
       include './includes/constants.php';
@@ -63,7 +60,7 @@ session_start();
           die("Connection failed: " . $conn->connect_error);
       }
 
-      $loginQuery = "SELECT  userid, firstname, lastname, userimage FROM user WHERE username = '$username' AND password = '$password'";
+      $loginQuery = "SELECT  userid, firstname, lastname, userimage, isadmin FROM user WHERE username = '$username' AND password = '$password' AND isactive = 1";
       $result = $conn->query($loginQuery);
 
       if ($result->num_rows == 1) 
@@ -73,12 +70,12 @@ session_start();
           $userid = $row['userid'];
           $_SESSION['userid'] = $userid;
           $_SESSION['FirstName'] = $row['firstname'];
-          $username = $row['username'];
           $_SESSION['user'] = $userid;
           $userimage = $row['userimage'];
           $_SESSION['userimage'] = $userimage;
+          $_SESSION['isAdmin'] = $row['isadmin'];
           
-          header("Location: index.php");
+         header("Location: index.php");
         }
         else
         {

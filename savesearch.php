@@ -1,9 +1,9 @@
 <?php
     session_start();
-    if((isset($_SESSION['userid'])) &&  ($_SERVER["REQUEST_METHOD"] == "GET") && $_GET['searchword'] !="")
+    if((isset($_SESSION['userid'])) &&  ($_SERVER["REQUEST_METHOD"] == "GET") && $_GET['word'] !="")
     {
-        $searchword = $_GET['searchword'];
-        $userId = $_SESSION['userid'];
+        $word = $_GET['word'];
+        $userid = $_SESSION['userid'];
         
         include './includes/constants.php'; 
 
@@ -12,8 +12,8 @@
         {
             die("Connection failed: " . $conn->connect_error);
         }
-        $wordinsertQuery = "INSERT INTO search(userid, searchword) 
-                                        VALUES($userId, '$searchword' )";
+        $wordinsertQuery = "INSERT INTO word(userid, word) 
+                                        VALUES($userid, '$word' )";
         if ($conn->query($wordinsertQuery) === TRUE)
         {
             echo "word inserted successfully.";

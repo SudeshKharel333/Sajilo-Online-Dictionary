@@ -37,7 +37,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <h3>Recent Searches</h3>
                 <?php
-                    $userId = $_SESSION['userid'];
+                    $userid = $_SESSION['userid'];
 
                     // Connect to the database and check if the username and password exist in the userlogin table
                     include './includes/constants.php';
@@ -48,13 +48,13 @@
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    $searchQuery = "SELECT searchword, searchid FROM search WHERE userid = $userId ORDER BY searchtime DESC";
+                    $searchQuery = "SELECT word, wordid FROM word WHERE userid = $userid ORDER BY searchtime DESC";
                     $result = $conn->query($searchQuery);    
                     if ($result->num_rows > 0) 
                     {
                         // output data of each row
                         while($row = $result->fetch_assoc()) {
-                        echo "<div class='well well-sm'>". $row['searchword']." <a href='./deletesearch.php?searchid=".$row['searchid']."'><span class='glyphicon glyphicon-trash  pull-right'></span></a></div>";
+                        echo "<div class='well well-sm'>". $row['word']." <a href='./deletesearch.php?wordid=".$row['wordid']."'><span class='glyphicon glyphicon-trash  pull-right'></span></a></div>";
                         }
                     } else {
                         echo "0 results";

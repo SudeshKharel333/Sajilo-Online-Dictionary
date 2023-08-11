@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             
             if ($conn->query($updateUserInfo) === FALSE) 
             { 
-                echo "<div class='notification success'>User Update failed, try again!</div>";
+                echo "<div class='notification error'>User Update failed, try again!</div>";
             }
             else{ 
              echo "<div class='notification success'>User Update Successful!</div>";
