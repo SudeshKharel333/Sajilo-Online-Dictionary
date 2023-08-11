@@ -1,86 +1,147 @@
- <?php
-       include './includes/constants.php';
+<?php
+    session_start();
+    if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] == 0){
+        header('Location:./index.php');
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sajilo Online Dictionary</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <!--google font link -->
+    <link rel="icon" type="image/x-icon" href="./images/logo.png">
+</head>
+    <?php 
+        include './includes/header.php';
+        include './includes/constants.php';
 
         $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
         if ($conn->connect_error)
         {
             die("Connection failed: " . $conn->connect_error);
         }
-         $searchQuery = "SELECT * FROM search";
+         $searchQuery = "SELECT * FROM word";
          $result = $conn->query($searchQuery);    
+         
+         $searchArray = array();
         if ($result->num_rows > 0) 
         {
-            echo "
-            <table>
-            <tr>
-            <th>SearchID</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>UserID</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>SearchTime</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>SearchWord</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            </tr>";
-        // output data of each row
+
             while($row = $result->fetch_assoc()) 
             {
-               
-                echo"<tr><td>". $row['searchid']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['userid']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['searchtime']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['searchword']."</tr></td><br>";
+               array_push($searchArray, $row);
             }
-        } else 
-        {
-            echo "0 results";
         }
-        $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-        if ($conn->connect_error)
-        {
-            die("Connection failed: " . $conn->connect_error);
-        }
+
          $searchQuery = "SELECT * FROM user";
          $result = $conn->query($searchQuery);    
         if ($result->num_rows > 0) 
         {
-            echo "<table>
-            <tr>
-            <th>UserID</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Firstname</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Lastname</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Email</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Age</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Gender</th>&nbsp;&nbsp;&nbsp;&nbsp
-            </tr>";
-        // output data of each row
+            $userArray = array();
+
             while($row = $result->fetch_assoc()) 
             {
-               
-                echo"<tr><td>". $row['userid']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['firstname']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['lastname']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['email']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['age']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['gender']."</td></tr>";
+               array_push($userArray, $row);
             }
-        } else 
-        {
-            echo "0 results";
         }
-        $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-        if ($conn->connect_error)
-        {
-            die("Connection failed: " . $conn->connect_error);
-        }
+
          $searchQuery = "SELECT * FROM book";
          $result = $conn->query($searchQuery);    
         if ($result->num_rows > 0) 
         {
-            echo "<table>
-            <tr>
-            <th>BookID</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Bookname</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>BookAuthor</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Bookprice</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Booklink</th>&nbsp;&nbsp;&nbsp;&nbsp;
-            </tr>";
-        // output data of each row
+            $bookArray = array();
+
             while($row = $result->fetch_assoc()) 
             {
-               
-                echo"<tr><td>". $row['bookid']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['bookname']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['bookauthor']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['bookprice']."</td>&nbsp;&nbsp;&nbsp;&nbsp;<td>".$row['booklink']."</td></tr>";
+               array_push($bookArray, $row);
             }
-        } else 
-        {
-            echo "0 results";
         }
  ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<body>
+    <div class="container">
+        <h3>Searches</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">UserId</th>
+                <th scope="col">Word</th>
+                <th scope="col">Searched On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($searchArray as $row){ ?>
+                    <tr>
+                        <td><?php echo $row['userid']; ?></td>
+                        <td><?php echo $row['word']; ?></td>
+                        <td><?php echo $row['searchtime']; ?></td>
+                    </tr>
+                <?php }?>
+            </tbody>
+        </table>
+
+        <h3>Users</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">Firstname</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Username</th>
+                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+                <th scope="col">IsActive</th>
+                <th scope="col">IsAdmin</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($userArray as $row){ ?>
+                    <tr>
+                        <td><?php echo $row['firstname']; ?></td>
+                        <td><?php echo $row['lastname']; ?></td>
+                        <td><?php echo $row['username']; ?></td>
+                        <td><?php echo $row['password']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['isActive']; ?></td>
+                        <td><?php echo $row['isadmin']; ?></td>
+                        <td>
+                            <a href="./edituser.php?userid=<?php echo $row['userid']; ?>"><button class="btn btn-primary">Edit</button></a>
+                        </td>
+                    </tr>
+                <?php }?>
+            </tbody>
+        </table>
+
+        <h3>Books</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">bookid</th>
+                <th scope="col">bookname</th>
+                <th scope="col">bookauthor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($bookArray as $row){ ?>
+                    <tr>
+                        <td><?php echo $row['bookid']; ?></td>
+                        <td><?php echo $row['bookname']; ?></td>
+                        <td><?php echo $row['bookauthor']; ?></td>
+                    </tr>
+                <?php }?>
+            </tbody>
+        </table>
+
+
+    </div>
+</body>
+<?php include './includes/footer.php'; ?>
+
+</html>
