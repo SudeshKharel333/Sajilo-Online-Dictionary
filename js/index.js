@@ -32,7 +32,7 @@ function buttonClickHandler() {
             //if logged in and result 200, save to db
             //Call our api to save to the db
             const xhr2 = new XMLHttpRequest();
-            const searchApiUrl = 'http://localhost/dictionary/savesearch.php?searchword=' + word;
+            const searchApiUrl = 'http://localhost/dictionary/savesearch.php?word=' + word;
             xhr2.open('GET', searchApiUrl);
             xhr.onload = function(){
                 if(this.status === 200){
